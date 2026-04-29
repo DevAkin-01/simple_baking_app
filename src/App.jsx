@@ -1,22 +1,25 @@
 
-import { useState } from 'react'
-import LandingPage from "../src/assets/Pages/LandingPage"
-import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './assets/Components/LogIn'
-import { AppProvider } from './Context/AppContext'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './Stores/Store';
+import { AppProvider } from './Context/AppContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from '../src/assets/Components/LogIn';
+import LandingPage from '../src/assets/Pages/LandingPage';
 
-function App() {
+const App = () => {
   return (
-    <AppProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<LandingPage />} />
-        </Routes>
-      </BrowserRouter>
-    </AppProvider>
-  )
-}
+    <Provider store={store}>
+      <AppProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<LandingPage />} />
+          </Routes>
+        </Router>
+      </AppProvider>
+    </Provider>
+  );
+};
 
-export default App
+export default App;

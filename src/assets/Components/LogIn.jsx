@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-import "../Styles/LogIn.css";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { AppContext } from '../../Context/AppContext';
+import "../Styles/LogIn.css"
 
 const Login = () => {
   const nav = useNavigate();
-  const { users, loginAction } = useContext(AppContext);
+  const { loginAction } = useContext(AppContext);
+  const users = useSelector((state) => state.bank.users);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -13,12 +15,12 @@ const Login = () => {
     const inputName = e.target.username.value;
     const inputPass = e.target.password.value;
 
-    const CorrectUser = users.find(
+    const authenticatedUser = users.find(
       (u) => u.name.toLowerCase() === inputName.toLowerCase() && u.password === inputPass
     );
 
-    if (CorrectUser) {
-      loginAction(CorrectUser);
+    if (authenticatedUser) {
+      loginAction(authenticatedUser);
       nav('/home');
     } else {
       alert('Invalid credentials');
@@ -35,12 +37,14 @@ const Login = () => {
             type="text" 
             placeholder="Username" 
             className="login-input" 
+            required
           />
           <input 
             name="password"
             type="password" 
             placeholder="Password" 
             className="login-input" 
+            required
           />
           <button type="submit" className="login-button">
             LOGIN
